@@ -55,6 +55,7 @@ class RegexConverter(BaseConverter):
 APP.url_map.converters['regex'] = RegexConverter
 
 
+
 @APP.route("/<regex('.*\.git$'):repo>/")
 @APP.route("/<regex('.*\.git$'):repo>")
 def redirect_to_repo(repo):
@@ -62,7 +63,8 @@ def redirect_to_repo(repo):
     repo = repo_dot_split[0]
     redirect_repo_url = '/' + repo
     return redirect(redirect_repo_url)
-    
+
+
 
 
 @APP.route('/<repo:repo>/')
