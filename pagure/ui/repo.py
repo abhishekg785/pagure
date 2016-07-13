@@ -27,8 +27,7 @@ from pygments.lexers import guess_lexer_for_filename
 from pygments.lexers.special import TextLexer
 from pygments.util import ClassNotFound
 from sqlalchemy.exc import SQLAlchemyError
-from werkzeug.routing import BaseConverter 
-from flask import redirect
+
 
 import mimetypes
 import chardet
@@ -45,28 +44,16 @@ from pagure import (APP, SESSION, LOG, __get_file_in_tree, login_required,
                     is_repo_admin, admin_session_timedout, authenticated)
 
 
+
 # pylint: disable=E1101
 
-class RegexConverter(BaseConverter):
-    def __init__(self,url_map,*items):
-        super(RegexConverter,self).__init__(url_map)
-        self.regex = items[0]
-
-APP.url_map.converters['regex'] = RegexConverter
 
 
-
-@APP.route("/<regex('.*\.git$'):repo>/")
-@APP.route("/<regex('.*\.git$'):repo>")
+@APP.route('/<repo:repo>.git')
 def redirect_to_repo(repo):
-    repo_dot_split = repo.rsplit('.',1)
-    repo = repo_dot_split[0]
-    redirect_repo_url = '/' + repo
-    return redirect(redirect_repo_url)
+    return flask.redirect(repo)
 
-
-
-
+    
 @APP.route('/<repo:repo>/')
 @APP.route('/<repo:repo>')
 @APP.route('/fork/<username>/<repo:repo>/')
