@@ -53,6 +53,12 @@ from pagure import (APP, SESSION, LOG, __get_file_in_tree, login_required,
 def redirect_to_repo(repo):
     return flask.redirect(repo)
 
+
+@APP.route('/fork/<username>/<repo:repo>.git')
+def redirect_to_fork_repo(repo, username=None):
+    redirect_url = '/fork/' + username + '/' + repo
+    return flask.redirect(redirect_url)
+
     
 @APP.route('/<repo:repo>/')
 @APP.route('/<repo:repo>')
